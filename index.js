@@ -231,7 +231,7 @@ function startInterface(){
         log_("Banco de dados iniciados com sucesso. Escutando conexoes...")   
         
         iniciaDbPrincipal()
-        http.listen(8085);  
+        http.listen(8086);  
     })    
 }
 
