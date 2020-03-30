@@ -22,23 +22,13 @@ var diretorioArquivosUrl = "/relatorios_arquivos/"
 
 var conPrincipal
 
-var poolDatabaseNames = [
-        "intervales", 
-        "aguapei", 
-        "anchieta", 
-        "carlosbotelho", 
-        "cavernadodiabo", 
-        "itatins", 
-        "itingucu", 
-        "morrododiabo", 
-        "pesm_caminhosdomar",
-        "pesm_caraguatatuba", 
-        "pesm_cunha", 
-        "pesm_picinguaba", 
-        "pesm_santavirginia", 
-        "petar_caboclos", 
-        "petar_ouro_grosso", 
-        "petar_santana"
+var poolDatabaseNames = [        
+        { banco: "anchieta", hostname: "54.70.93.227" },         
+        { banco: "cavernadodiabo", hostname: "52.27.33.16" },         
+        { banco: "pesm_caminhosdomar", hostname: "44.232.50.53" },         
+        { banco: "pesm_picinguaba", hostname: "35.155.24.178" },         
+        { banco: "petar_caboclos", hostname: "54.186.169.201" },         
+        { banco: "petar_santana", hostname: "3.12.134.93" }
     ]
 
 function iniciaDbPrincipal(){
@@ -107,7 +97,7 @@ function startPool(){
 
     return new Promise(function(resolve, reject){ 
 
-        log_('Iniciando Pool de banco de dados: ' + poolDatabaseNames + '. Total: ' + poolDatabaseNames.length)
+        log_('Iniciando Pool de banco de dados. Total: ' + poolDatabaseNames.length)
 
         let promises = []
 
@@ -116,10 +106,10 @@ function startPool(){
             let promise = new Promise(function(resolvePool){ 
         
                 var db_config = {
-                    host: "3.212.93.86",                    
+                    host: poolDatabaseNames[i].hostname,                    
                     user: "root",
                     password: "Mudaragora00",
-                    database: poolDatabaseNames[i],
+                    database: poolDatabaseNames[i].banco,
                     timezone: 'utc'
                 };
                             
@@ -175,7 +165,7 @@ function handleDisconnects() {
                     }
 
                     else {
-                        log_("Database conectado: " + poolDatabaseNames[i])   
+                        log_("Database conectado: " + poolDatabaseNames[i].banco + '. Hostname: ' + poolDatabaseNames[i].hostname)   
                         poolConnections.push(con)    
                         
                         setInterval(function () {
